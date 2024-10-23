@@ -1,0 +1,70 @@
+{% extends "./bayprog_base.html" %}
+
+{% block content %}
+
+<h1>Upcoming Events</h1>
+
+
+<div class="events-top">
+
+  <div class="events-cartoon">
+    <img src="/static/bayprogapp/images/satinknights.jpg"
+	 alt="Simpsons Moody Blues" />
+  </div>
+
+  <div class="events-note">
+    <p>
+      Pro tip: Know that "Fox" is a crazy popular name for a theater.  And
+      here in the area we have:
+    </p>
+    <ul>
+      <li>
+	<a href="http://www.foxrwc.com">The Fox Theatre</a> in Redwood City
+      </li>
+      <li>
+	<a href="http://www.clubfoxrwc.com">Club Fox</a> next door (used to be the Little Fox)
+      </li>
+      <li>
+	<a href="http://thefoxoakland.com">The Fox Theater</a> in Oakland
+      </li>
+      <li>
+	<a href="https://www.foxvisalia.org">Visalia Fox Theatre</a> near Fresno
+      </li>
+      <li>
+	<a href="http://www.foxtheatersalinas.com">The Fox Theater</a> in Salinas
+      </li>
+    </ul>
+    <p>
+      You don't want to get them confused.
+    </p>
+  </div>
+</div>
+
+
+{% for month, events in monthevents %}  
+
+  <div class="monthheading">{{month}}</div>
+
+  <div class="eventposters">
+  {% for event in events %}
+  {% if event.poster %}
+  <img src="{{ event.poster.url }}" class="eventposter" title="{{ event }}" />
+  {% endif %}
+  {% endfor %}
+  </div>
+
+  {% for event in events %}  
+  <div class="eventlisting">
+    {{event.prettydate}}:
+    <b><a href="{{ event.url }}" target="_blank">{{ event.description }}</a></b>
+    at 
+    {% if event.venue %}
+    <a href="{{ event.venue.url }}" target="_blank">{{ event.venue.the_name }}</a>,
+    {{ event.venue.city.name }}
+    {% endif %}
+    {{ event.note }}
+  </div>
+  {% endfor %}
+
+{% endfor %}
+{% endblock %}

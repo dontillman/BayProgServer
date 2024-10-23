@@ -1,0 +1,35 @@
+{% extends 'bayprogapp/bayprog_base.html' %}
+
+{% block content %}
+
+<h2>Login</h2>
+
+{% if user.is_authenticated %}
+<p>
+  You are already logged in.  Please logout first.
+
+</p>
+
+{% else %}
+
+<div class="userform">
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tbody>
+	{{ form }}
+      </tbody>
+    </table>
+    <div class="submit-row">
+      <button type="submit">Login</button>
+    </div>
+  </form>
+</div>
+
+<p>
+  <a href="{% url 'password_reset' %}">Lost password?</a>
+</p>
+
+{% endif %}
+
+{% endblock %}

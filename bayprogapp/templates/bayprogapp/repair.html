@@ -1,0 +1,30 @@
+{% extends "./bayprog_base.html" %}
+
+{% block content %}
+
+<h1>Instrument Repair</h1>
+
+{% for category, repairshops in categoryrepairshops %}  
+<h2>{{ category }}</h2>
+
+<div class="list-items">
+  {% for repairshop in repairshops %}
+  <div class="list-item">
+
+    <div class="list-item-main">
+      <b><a href="{{repairshop.url}}" target="_blank">{{ repairshop.name }}</a></b>,
+      {% if repairshop.address %}
+      {{ repairshop.address }},
+      {% endif %}
+      {{ repairshop.city.name }}
+    </div>
+    
+    <div class="list-item-note">
+      {{ repairshop.note  }}
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

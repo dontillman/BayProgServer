@@ -1,0 +1,27 @@
+{% extends "./bayprog_base.html" %}
+
+{% block content %}
+
+<h1>Local Equipment Makers</h1>
+
+{% for category, equipmentmakers in categorymakers %}  
+<h2>{{ category }}</h2>
+
+<div class="list-items">
+  {% for equipmentmaker in equipmentmakers %}
+  <div class="list-item">
+    <div class="list-item-main">
+      <b><a href="{{equipmentmaker.url}}" target="_blank">{{ equipmentmaker.name }}</a></b>,
+      {{ equipmentmaker.city.name }}
+    </div>
+    
+    <div class="list-item-note">
+      {{ equipmentmaker.note  }}
+    </div>
+
+  </div>
+  {% endfor %}
+
+</div>
+{% endfor %}
+{% endblock %}

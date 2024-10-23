@@ -1,0 +1,32 @@
+{% extends "./bayprog_base.html" %}
+
+{% block content %}
+
+<h1>Bay Area Music Stores</h1>
+
+{% for region, musicstores in musicstoresbyregion %}  
+<h2>{{region}}</h2>
+
+<div class="list-items">
+
+  {% for musicstore in musicstores %}
+  <div class="list-item">
+
+    <div class="list-item-main">
+      <b><a href="{{musicstore.url}}" target="_blank">{{musicstore.name}}</a></b>,
+      {% if musicstore.address %}
+      {{musicstore.address}},
+      {% endif %}
+      {{musicstore.city.name}}
+    </div>
+
+    <div class="list-item-note">
+      {{ musicstore.note }}
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+{% endfor %}
+
+{% endblock %}

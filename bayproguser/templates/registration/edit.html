@@ -1,0 +1,34 @@
+{% extends 'bayprogapp/bayprog_base.html' %}
+
+{% block content %}
+
+
+<div style="display: flex; justify-content: space-between;">
+  <div>
+    <h2>Edit User {{ fullname }} </h2>
+    <div class="message">
+      {{ message }}
+    </div>
+    <div class="error">
+      {{ form.non_field_errors }}
+    </div>
+  </div>
+
+  <div>
+    {% if user.image %}
+    <img src="{{ user.image.url }}" />
+    {% endif %}
+  </div>
+</div>
+
+<div class="userform">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{ table }}
+    </table>
+    <button type="submit" name="update">Update User</button>
+  </form>
+</div>
+
+{% endblock %}

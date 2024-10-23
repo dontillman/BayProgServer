@@ -1,0 +1,96 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4HW63S3GRD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4HW63S3GRD');
+    </script>
+
+    <title>BayProg {% block title %}Home{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script>
+      const phases = ['New Moon',
+		      'Waxing Crescent Moon',
+		      'First Quarter Moon',
+		      'Waxing Gibbous Moon',
+		      'Full Moon',
+		      'Waning Gibbous Moon',
+		      'Last Quarter Moon',
+		      'Waning Crescent Moon'];
+      function setMoon() {
+          const newMoon = Date.parse('2023-01-21T12:53:00.000-08:00');
+          const days = (Date.now() - newMoon) / (24 * 3600 * 1000);
+          const phase = days / 29.53;
+          const i = Math.floor(((8 * phase) + 0.5) % 8);
+	  const moonImage = document.getElementById('moon');
+          moonImage.src = `/static/bayprogapp/images/moon-${i}.jpg`;
+	  moonImage.title = phases[i];
+      }
+      if ('loading' === document.readyState) {
+          document.addEventListener('DOMContentLoaded', setMoon);
+      } else {
+          setMoon();
+      }
+    </script>
+    <link href="{% static 'bayprogapp/styles.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="outer">
+      <a href="./" style="width: 100%" >
+      <div id="header">
+        <img id="moon" src="" width="50" height="50" alt="moon" />
+      </div>
+      </a>
+      <div class="nav-area">
+	<div class="userstatus">
+	  {% if request.user.is_authenticated %}
+	  <div class="useritem">
+	    <a href="/accounts/edit">
+	      {% firstof request.user.get_full_name request.user.username %}
+	    </a>
+	  </div>
+	  <div class="useritem">
+	    <a href="/?logout=true">Logout</a>
+	  </div>
+	  {% else %}
+	  <div class="useritem">
+	    <a href="/accounts/login">Login</a>
+	  </div>
+	  <div class="useritem">
+	    <a href="/accounts/signup">Signup</a>
+	  </div>
+	  {% endif %}
+	</div>
+
+	<div class="nav">
+	  <div class="navitem"><a href="/"> Home</a></div>
+	  <div class="navitem"><a href="/bands">Bands and Musicians</a></div>
+	  <div class="navitem"><a href="/events">Events</a></div>
+	  <div class="navitem"><a href="/venues">Venues</a></div>
+	  <div class="navitem"><a href="/albums">Albums</a></div>
+	  <div class="navitem"><a href="/musicstores">Music Stores</a></div>
+	  <div class="navitem"><a href="/instrumentmakers">Instrument Makers</a></div>
+	  <div class="navitem"><a href="/repair">Instrument Repair</a></div>
+	  <div class="navitem"><a href="/equipmentmakers">Equipment Makers</a></div>
+	  <div class="navitem"><a href="/recordstores">Record Stores</a></div>
+	  <div class="navitem"><a href="/messages">Message Board</a></div>
+	</div>
+      </div>
+
+      <div class="mainContent">
+	{% block content %}{% endblock content %}
+      </div>
+    </div>
+    <div class="footer">
+      <a href="http://bayprog.org">bayprog.org</a>
+    </div>
+  </body>
+</html>
+
+
+

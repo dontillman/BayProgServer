@@ -1,0 +1,30 @@
+{% extends 'bayprogapp/bayprog_base.html' %}
+
+{% block content %}
+<h2>Sign up</h2>
+
+<p>
+  Sign up to the BayProg web site.
+</p>
+<p>
+  <i>"Why on earth would I want to do that?"</i>
+</p>
+<p>
+  It will give you the ability to post on our message board.  And
+  probably more later.  (And please say "hello" on the message board
+  after you sign up.)
+</p>
+
+<div class="userform">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <table>
+      {{ form }}
+    </table>
+    <div class="submit-row">
+      <button type="submit">Sign up</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "./bayprog_base.html" %}
+
+{% block content %}
+
+<h1>SF Bay Area Progressive Rock Bands and Musicians</h1>
+
+<h2>Bands:</h2>
+
+<div class="bands">
+  {% for column in activeBands %}  
+  <div class="bandsColumn">  
+    {% for band in column %}
+    <div class="band">
+      <b><a href="{{ band.url }}" target="_blank">
+	  {{band.name}}
+      </a></b>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>  
+
+<h2>Tribute Bands:</h2>
+<div class="bands">
+  {% for column in tributeBands %}  
+  <div class="bandsColumn">  
+    {% for band in column %}
+    <div class="band">
+      <b><a href="{{ band.url }}" target="_blank">
+	  {{band.name}}
+      </a></b>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>  
+<hr />
+<div>
+  <a href="https://twitter.com/julieklausner/status/1503012757171425281"
+     target="_blank">
+    <img src="/static/bayprogapp/images/queencrimson.png"
+	 width="400" height="131"
+	 alt="Is there an all non-dude King Crimson cover band called Queen Crimson or do I have to LEARN HOW TO PLAY THE FUCKING CHAPMAN STICK MYSELF -- Julie Klausner" 
+	 class="cartoon" />
+  </a>
+</div>
+<hr />
+
+<h2>Bands Archive:</h2>
+<div class="bands">
+  {% for column in inactiveBands %}
+  <div class="bandsColumn">  
+    {% for band in column %}
+    <div class="band">
+      <b><a href="{{ band.url }}" target="_blank">
+	  {{band.name}}
+      </a></b>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+

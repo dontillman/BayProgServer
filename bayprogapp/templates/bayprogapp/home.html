@@ -1,0 +1,143 @@
+{% extends "./bayprog_base.html" %}
+{% block content %}
+
+<div class="welcome">
+  Welcome to BayProg<br>
+  A ton of resources for San Francisco Bay area<br>
+  progressive rock musicians and fans.
+</div>
+
+
+{% for message in messages %}
+<div class="homepagemessage">{{ message|escape|linebreaks }}</div>
+{% endfor %}
+
+<hr />
+
+{% if upcoming_events %}
+<p>
+  Upcoming shows and events:
+</p>
+<div class="list-items">
+  {% for event in upcoming_events %}
+  <div class="list-item">
+    {{ event }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if new_events %}
+<p>
+  Recently added <b><a href="./events">events</a></b>:
+</p>
+<div class="list-items">
+  {% for event in new_events %}
+  <div class="list-item">
+    {{ event }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<hr />
+
+<h2>New Albums</h2>
+
+<p>
+  Most recent albums from Bay Area progressive rock bands.
+  The full list is
+  <b><a href="./albums">here</a></b>.
+</p>
+
+<div class="albums">
+  
+  {% for album in albums %}
+  <a href="{{ album.url }}" target="_blank">
+    <div class="cd">
+      <img src="{{ album.image.url }}" width="100" height="100" />
+      {{ album.band }} <br />
+      <em>{{ album.name }}</em>
+    </div>
+  </a>
+  {% endfor %}
+
+</div>
+
+<hr />
+
+<div>
+<p>
+  BayProg is the original regional progressive rock web site, first appearing in early 1999.
+</p>
+
+<p>
+  The goals of BayProg are, roughly:
+</p>
+
+<ul>
+  <li>
+    To serve the needs of musicians who play in local progressive rock
+    bands. As a musician I want to know what other bands are doing,
+    maybe pair up with another band for a gig, find musicians for my
+    band, and keep track of venues.
+  </li>
+  <li>
+    To serve the community of local progressive rock music fans by
+    promoting concerts, finding record stores that carry prog titles,
+    reporting local happenings, etc.
+  </li>
+  <li>  
+    To host announcements and discussions.
+  </li>
+  <li>  
+    To help promote progressive rock concerts.
+  </li>
+</ul>
+    
+<p>
+Please enjoy!  – Don
+</p>
+</div>
+
+<hr />
+
+<p>
+  Do check out the latest Ken Burns documentary film:
+</p>
+<img src="/static/bayprogapp/images/kenburns.jpg"
+     alt="Ken Burns: Prog Rock"
+     class="cartoon" />
+<hr />
+
+<a href="BayProgCD/index.html">
+  <img src="/static/bayprogapp/images/bayprogcdsmall.jpg"
+       alt="[BayProg CD]" 
+       class="bayprogcdthumb" /></a>
+
+<p>
+  The BayProg compilation CD can be found in the Spring 2002 issue of
+  <a href="http://www.expose.org" class="extlink"><b>Expos&eacute; Magazine</b></a>.&nbsp; 
+  It's called
+  <a href="BayProgCD/index.html"><b><i>BayProg -- Progressive Rock from the San Francisco Bay Area</i></b></a>,
+  and features contributions from:
+  <span class="extlink">
+    <ul>
+      <li><a href="http://members.aol.com/biffyshrew/biffy.html"><b>Michael P. Dawson</b></a></li>
+      <li><a href="http://www.gravitytree.com/"><b>Gravity Tree</b></a></li>
+      <li><a href="https://mckennasmith.wixsite.com/metaphor"><b>Metaphor</b></a></li>
+      <li><a href="http://www.mindfurniture.com"><b>Mind Furniture</b></a></li>
+      <li><a href="http://www.monocaine.com"><b>Monocaine</b></a></li>
+      <li><a href="http://www.amyxneuburg.com"><b>Amy X Neuburg &amp; Men</b></a></li>
+      <li><a href="http://www.new-sun.com"><b>New Sun</b></a></li>
+      <li><a href="http://www.puppetshow.com/"><b>Puppet Show</b></a></li>
+      <li><a href="http://www.sleepytimegorillamuseum.com"><b>Sleepytime Gorilla Museum</b></a></li>
+      <li><a href="http://www.spiritsburning.com"><b>Spirits Burning</b></a></li>
+      <li><a href="http://www.till.com/tesseract"><b>Tesseract</b></a></li>
+      <li><a href="http://members.aol.com/trapsz"><b>Trap</b></a></li>
+    </ul>
+  </span>
+</p>
+
+{% endblock %}
+

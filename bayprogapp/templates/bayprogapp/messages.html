@@ -1,0 +1,46 @@
+{% extends "./bayprog_base.html" %}
+
+{% block content %}
+
+<h1>Message Board</h1>
+
+<div class="message-board-top">
+  {% if request.user.is_authenticated %}
+  <p>
+    Post a message:
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <textarea rows="8" cols="68" name="text"></textarea>
+    <div class="message-board-submit">
+      <button type="submit">Post</button>
+    </div>
+  </form>
+  {% else %}
+  <div>
+    You need to be logged in to post a message.
+  </div>
+  {% endif %}
+</div>
+<div class="message-board-messages">
+  {% for message in messages %}
+  <div class="message-board-message">
+    {% if message.author.image %}
+    <div class="message-avatar"><img src="{{ message.author.image.url }}" /></div>
+    {% endif %}
+    {{ message.date }}<br />
+    <div class="tooltipwrap">
+      {{ message.authorname }}<br /><br />
+      <div class="tooltip">
+	{{ message.authorname }}:<br />
+	{{ message.author.about|escape|linebreaks }}
+      </div>
+    </div>
+    <div>
+      {{ message.text|escape|linebreaks }}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
