@@ -16,17 +16,17 @@ wsgi.py).  These are generated automatically by Django, but you need
 to tweak them.
 
 The BayProgApp module is the main web implementation.  It supports:
-    * The Home page
-    * Bands and Musicians
-    * Events
-    * Venues
-    * Albums
-    * Music Stores
-    * Instrument Makers
-    * Instrument Repair
-    * Equipment Makers
-    * Record Stores
-    * And a Message Board
+   * The Home page
+   * Bands and Musicians
+   * Events
+   * Venues
+   * Albums
+   * Music Stores
+   * Instrument Makers
+   * Instrument Repair
+   * Equipment Makers
+   * Record Stores
+   * And a Message Board
 
 Cities are included in the database so that venues, stores, and such,
 can be organized by region.
