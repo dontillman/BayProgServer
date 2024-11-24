@@ -17,12 +17,18 @@ class HomePageMessage(Model):
 
 
 class Band(Model):
+    CATEGORIES = [('active', 'Bands and Musicians'),
+                  ('tribute', 'Tribute Bands'),
+                  ('archive', 'Bands Archive'),
+                  ('passed', 'In Memory')]
     name = CharField('Name', max_length=64, unique=True)
     alpha = CharField('Alphabetized name (optional)',
                              blank=True, null=True, max_length=32)
     url = URLField('Web site')
-    tribute = BooleanField('Tribute band?', default=False)
-    active =  BooleanField('Active?', default=True)
+    category = CharField('Category',
+                         choices=CATEGORIES,
+                         default='active',
+                         max_length=32)
 
     class Meta:
         ordering = [Coalesce('alpha', 'name')]

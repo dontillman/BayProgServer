@@ -4,24 +4,24 @@
 
 <h1>Bay Area Music Stores</h1>
 
-{% for region, musicstores in musicstoresbyregion %}  
+{% for region, stores in regionstores %}  
 <h2>{{region}}</h2>
 
 <div class="list-items">
 
-  {% for musicstore in musicstores %}
+  {% for store in stores %}
   <div class="list-item">
 
     <div class="list-item-main">
-      <b><a href="{{musicstore.url}}" target="_blank">{{musicstore.name}}</a></b>,
-      {% if musicstore.address %}
-      {{musicstore.address}},
+      <b><a href="{{store.url}}" target="_blank">{{store.name}}</a></b>,
+      {% if store.address %}
+      {{store.address}},
       {% endif %}
-      {{musicstore.city.name}}
+      {{store.city.name}}
     </div>
 
     <div class="list-item-note">
-      {{ musicstore.note }}
+      {{ store.note }}
     </div>
   </div>
 

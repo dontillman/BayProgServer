@@ -4,23 +4,23 @@
 
 <h1>Instrument Repair</h1>
 
-{% for category, repairshops in categoryrepairshops %}  
+{% for category, shops in categoryshops %}  
 <h2>{{ category }}</h2>
 
 <div class="list-items">
-  {% for repairshop in repairshops %}
+  {% for shop in shops %}
   <div class="list-item">
 
     <div class="list-item-main">
-      <b><a href="{{repairshop.url}}" target="_blank">{{ repairshop.name }}</a></b>,
-      {% if repairshop.address %}
-      {{ repairshop.address }},
+      <b><a href="{{shop.url}}" target="_blank">{{ shop.name }}</a></b>,
+      {% if shop.address %}
+      {{ shop.address }},
       {% endif %}
-      {{ repairshop.city.name }}
+      {{ shop.city.name }}
     </div>
     
     <div class="list-item-note">
-      {{ repairshop.note  }}
+      {{ shop.note  }}
     </div>
 
   </div>

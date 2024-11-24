@@ -12,7 +12,7 @@ import logging
 logger = logging.getLogger('django')
 
 # Find recently added events.
-# Event objects don't save their creatiion dates, so instead
+# Event objects don't save their creation dates, so instead
 # we go over recent log entries.
 #   The log entry must be an ADDITION.
 #   The event must still exist (wasn't subsequently deleted).
@@ -57,74 +57,69 @@ def home(request):
                'albums': list(Album.objects.all()[:8])}
     return render(request, 'bayprogapp/home.html', context)
 
-def listBands(**keys):
-    bands = list(Band.objects.filter(**keys).all())
-    split = ceil(len(bands) / 2)
-    return (bands[0:split], bands[split:])
+# [[prettycategory, objs], ...]
+def group_by_category(clss):
+    return [(pretty, clss.objects.filter(category=category))
+            for (category, pretty) in clss.CATEGORIES]
 
-def bands(request):
-    context = {'activeBands': listBands(active=True, tribute=False),
-               'tributeBands': listBands(active=True, tribute=True),
-               'inactiveBands': listBands(active=False)}
-    return render(request, 'bayprogapp/bands.html', context)
-
-## split the objects up by their city's region
-def regionsplit(items):
-    return [(pretty, [item for item in items if item.city.region == region])
+# [[prettyregion, objs], ...]
+def group_by_region(clss):
+    return [(pretty, clss.objects.filter(city__region=region))
             for region, pretty in City.REGIONS]
 
-# python 3.9 has this 
-def removeprefix(prefix, text):
-    if text.startswith(prefix):
-        return text[len(prefix):]
-    else:
-        return text
+# {'catbands': {cat: [col1, col2],...}}
+def bands(request):
+    def two_columns(items):
+        split = ceil(len(items) / 2)
+        return [items[0:split], items[split:]]
 
+    catbandcols = [(cat, two_columns(bands))
+                   for (cat, bands) in group_by_category(Band)]
+    context = {'catbands': catbandcols}
+    return render(request, 'bayprogapp/bands.html', context)
+
+# {'regionvenues': {region: [venue,...],...}}
 def venues(request):
-    venueObjs = sorted(Venue.objects.all(),
-                       key=lambda venue: removeprefix('The ', venue.name))
-    context = {'regionvenues': regionsplit(venueObjs)}
+    context = {'regionvenues': group_by_region(Venue)}
     return render(request, 'bayprogapp/venues.html', context)
 
+# {'regionstores': {region: [store,...],...}}
+def musicstores(request):
+    context = {'regionstores': group_by_region(MusicStore)}
+    return render(request, 'bayprogapp/musicstores.html', context)
+
+# {'albums': [album,...]}
 def albums(request):
     context = {'albums': list(Album.objects.all())}
     return render(request, 'bayprogapp/albums.html', context)
 
-def musicstores(request):
-    context = {'musicstoresbyregion': regionsplit(list(MusicStore.objects.all()))}
-    return render(request, 'bayprogapp/musicstores.html', context)
-
-# get the objects in the class and split them up by category
-def categorysplit(modelclass):
-    items = list(modelclass.objects.all())
-    return [(pretty, [item
-                      for item in items
-                      if item.category == category])
-            for category, pretty in modelclass.CATEGORIES]
-
+# {'categorymakers': {cat: [maker,...],...}}
 def instrumentmakers(request):
-    context = {'categorymakers': categorysplit(InstrumentMaker)}
+    context = {'categorymakers': group_by_category(InstrumentMaker)}
     return render(request, 'bayprogapp/instrumentmakers.html', context)
 
+# {'categorymakers': {cat: [maker,...],...}}
 def equipmentmakers(request):
-    context = {'categorymakers': categorysplit(EquipmentMaker)}
+    context = {'categorymakers': group_by_category(EquipmentMaker)}
     return render(request, 'bayprogapp/equipmentmakers.html', context)
 
+# {'categoryshops': {cat: [shop,...],...}}
 def repairshops(request):
-    context = {'categoryrepairshops': categorysplit(RepairShop)}
+    context = {'categoryshops': group_by_category(RepairShop)}
     return render(request, 'bayprogapp/repair.html', context)
 
+# {'stores': [store,...],
+#  'mailorder': [store,...]}
 def recordstores(request):
     stores = list(RecordStore.objects.all())
-    context = {'recordstores': filter(lambda store: store.city, stores),
-               'mailorderrecords': filter(lambda store: not store.city, stores),}
+    context = {'stores': filter(lambda store: store.city, stores),
+               'mailorder': filter(lambda store: not store.city, stores)}
     return render(request, 'bayprogapp/recordstores.html', context)
 
-# Events page
 # Events are grouped by month.
 # Only include events after the previous month.
 # Return:
-#   'monthevents': [[month, [event,...]],...]
+# {'monthevents': [[month, [event,...]],...]}
 def events(request):
     thismonth = date.today().replace(day=1)
     lastmonth = (thismonth - timedelta(days=1)).replace(day=1)
@@ -136,6 +131,7 @@ def events(request):
     context = {'monthevents': monthevents}
     return render(request, 'bayprogapp/events.html', context)
 
+#{'messages': [message,...]}
 def messages(request):
     if request.method == 'POST':
         message = Message(author=request.user,
@@ -149,4 +145,3 @@ def messages(request):
                  for message in Message.objects.order_by('-date')]
     context = {'messages': messages}
     return render(request, 'bayprogapp/messages.html', context)
-
